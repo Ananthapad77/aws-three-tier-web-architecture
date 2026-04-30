@@ -1,0 +1,51 @@
+/* ── Design Tokens ─────────────────────────────────────────── */
+:root {
+  --bg:          #0f172a;
+  --bg2:         #1e293b;
+  --bg3:         #334155;
+  --surface:     #1e293b;
+  --border:      #334155;
+  --border-light:#475569;
+  --text:        #f1f5f9;
+  --text2:       #94a3b8;
+  --text3:       #64748b;
+  --accent:      #38bdf8;
+  --accent-dark: #0284c7;
+  --green:       #4ade80;
+  --green-bg:    rgba(74,222,128,0.1);
+  --red:         #f87171;
+  --red-bg:      rgba(248,113,113,0.1);
+  --amber:       #fbbf24;
+  --amber-bg:    rgba(251,191,36,0.1);
+  --purple:      #a78bfa;
+  --purple-bg:   rgba(167,139,250,0.1);
+  --radius:      10px;
+  --radius-lg:   16px;
+  --shadow:      0 4px 24px rgba(0,0,0,0.4);
+  --font:        'DM Sans', sans-serif;
+  --font-mono:   'DM Mono', monospace;
+  --transition:  0.18s ease;
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: var(--font);
+  background:  var(--bg);
+  color:       var(--text);
+  min-height:  100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+button { cursor: pointer; font-family: var(--font); }
+input, select, textarea { font-family: var(--font); }
+
+/* ── Utility ───────────────────────────────────────────────── */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
