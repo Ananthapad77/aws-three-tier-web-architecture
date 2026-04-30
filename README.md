@@ -9,9 +9,6 @@ A production-grade **User Management System** deployed on AWS
 using Three-Tier Architecture — Presentation, Application, and Data tiers
 fully separated across private and public subnets.
 
-## 🌐 Live Demo
-**URL:** http://d29tkwjze0pcvw.cloudfront.net
-
 ## 🏗️ Architecture
 ## ☁️ AWS Services Used
 
