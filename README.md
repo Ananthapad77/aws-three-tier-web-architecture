@@ -10,8 +10,27 @@ using Three-Tier Architecture — Presentation, Application, and Data tiers
 fully separated across private and public subnets.
 
 ## 🏗️ Architecture
-https://github.com/Ananthapad77/aws-three-tier-web-architecture/blob/main/ThreeTierWebArchitecture.png
+# AWS Three-Tier Web Architecture
 
+## Architecture Diagram
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Ananthapad77/aws-three-tier-web-architecture/main/ThreeTierWebArchitecture.png" 
+       alt="AWS Three-Tier Web Architecture"
+       width="900"/>
+</p>
+
+## Overview
+This project demonstrates a Three-Tier Web Architecture on AWS using:
+- **CloudFront** - Global CDN & content delivery
+- **Application Load Balancer** - HTTP traffic routing
+- **Elastic Beanstalk** - Auto-scaling application tier
+- **RDS MySQL** - Managed relational database
+- **ElastiCache Redis** - Caching & session management
+- **Route 53** - DNS service
+- **CloudWatch** - Monitoring & logs
+- **SNS** - Notifications
+- **NAT Gateway** - Outbound internet access
 ## ☁️ AWS Services Used
 
 | Service | Purpose |
