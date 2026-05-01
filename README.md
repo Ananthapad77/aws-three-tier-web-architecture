@@ -10,6 +10,8 @@ using Three-Tier Architecture — Presentation, Application, and Data tiers
 fully separated across private and public subnets.
 
 ## 🏗️ Architecture
+https://github.com/Ananthapad77/aws-three-tier-web-architecture/blob/main/ThreeTierWebArchitecture.png
+
 ## ☁️ AWS Services Used
 
 | Service | Purpose |
