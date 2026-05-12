@@ -11,15 +11,11 @@ fully separated across private and public subnets.
 
 
 ## Architecture Diagram
-
-![AWS Three Tier Architecture](images/three-tier-architecture.png)
-
-<h2 align="center">AWS Three Tier Architecture</h2>
+<h2 align="center">AWS Three Tier Web Architecture</h2>
 
 <p align="center">
-  <img src="images/three-tier-architecture.png" width="900">
+  <img src="https://raw.githubusercontent.com/Ananthapad77/aws-three-tier-web-architecture/main/Threetierarchitecture.png" width="900">
 </p>
-
 ## 🏗️ Architecture
 # AWS Three-Tier Web Architecture
 
