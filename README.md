@@ -19,13 +19,6 @@ fully separated across private and public subnets.
 ## 🏗️ Architecture
 # AWS Three-Tier Web Architecture
 
-## Architecture Diagram
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Ananthapad77/aws-three-tier-web-architecture/main/ThreeTierWebArchitecture.png" 
-       alt="AWS Three-Tier Web Architecture"
-       width="900"/>
-</p>
 
 ## Overview
 This project demonstrates a Three-Tier Web Architecture on AWS using:
