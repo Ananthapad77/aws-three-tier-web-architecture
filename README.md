@@ -280,18 +280,6 @@ This project demonstrates hands-on experience with:
 - Applying **AWS security best practices** at the network, application, and data layers
 - Managing **production-grade infrastructure** using AWS managed services
 
----
-
-## Author
-
-**Ananthapadmanabhan G**
-*Cloud / DevOps / AWS Engineer*
-
----
-
-> *Built with AWS best practices for networking, security, scalability, and observability.*
-
-
 
 
 ## Overview
@@ -375,6 +363,10 @@ npm start     # runs on :3000
 | GET | /api/users/export/csv | Download CSV |
 
 ## 👤 Author
+
+---
+
+> *Built with AWS best practices for networking, security, scalability, and observability.*
 
 **G. Ananthapadmanabhan**
 Site Reliability Engineer · 2.5 years experience
