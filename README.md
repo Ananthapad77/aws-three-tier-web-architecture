@@ -10,15 +10,52 @@ using Three-Tier Architecture — Presentation, Application, and Data tiers
 fully separated across private and public subnets.
 
 
-## Architecture Diagram
-<h2 align="center">AWS Three Tier Web Architecture</h2>
+<h1 align="center">AWS Three-Tier Web Architecture</h1>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Ananthapad77/aws-three-tier-web-architecture/main/Threetierarchitecture.png" width="900">
+  <img
+    src="https://raw.githubusercontent.com/Ananthapad77/aws-three-tier-web-architecture/main/Screenshot%202026-06-01%20171850.png"
+    alt="AWS Three-Tier Web Architecture"
+    width="1000"
+  />
 </p>
-## 🏗️ Architecture
-# AWS Three-Tier Web Architecture
 
+<h2>Architecture Overview</h2>
+
+<p>
+This project demonstrates a highly available and scalable three-tier web architecture
+on AWS using CloudFront, S3, Application Load Balancer, Elastic Beanstalk,
+Auto Scaling, RDS Multi-AZ, and ElastiCache for Redis.
+</p>
+
+<h2>Architecture Flow</h2>
+
+<ol>
+  <li>User accesses the application through HTTPS.</li>
+  <li>Amazon CloudFront delivers cached content.</li>
+  <li>Static assets are served from Amazon S3.</li>
+  <li>Dynamic requests are routed to the Application Load Balancer.</li>
+  <li>Elastic Beanstalk manages EC2 Auto Scaling instances.</li>
+  <li>Application instances access Redis for caching.</li>
+  <li>Amazon RDS Multi-AZ stores application data.</li>
+  <li>NAT Gateway provides outbound internet access for private resources.</li>
+</ol>
+
+<h2>AWS Services Used</h2>
+
+<ul>
+  <li>Amazon VPC</li>
+  <li>Internet Gateway</li>
+  <li>NAT Gateway</li>
+  <li>Public & Private Subnets</li>
+  <li>Amazon CloudFront</li>
+  <li>Amazon S3</li>
+  <li>Application Load Balancer</li>
+  <li>AWS Elastic Beanstalk</li>
+  <li>Amazon EC2 Auto Scaling</li>
+  <li>Amazon RDS (Multi-AZ)</li>
+  <li>Amazon ElastiCache for Redis</li>
+</ul>
 
 # AWS Three-Tier Web Architecture
 
