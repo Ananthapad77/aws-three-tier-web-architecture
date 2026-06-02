@@ -1,0 +1,42 @@
+name: Deploy Backend to Elastic Beanstalk
+
+on:
+  push:
+    branches: [main]
+    paths: ['backend/**']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip Backend
+        run: |
+          cd backend
+          zip -r ../app-${{ github.sha }}.zip . \
+            --exclude 'node_modules/*'
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Upload ZIP to S3
+        run: |
+          aws s3 cp app-${{ github.sha }}.zip \
+            s3://threetierfrontend/deployments/app-${{ github.sha }}.zip
+
+      - name: Deploy to Beanstalk
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name three-tier-app \
+            --version-label v-${{ github.sha }} \
+            --source-bundle S3Bucket=threetierfrontend,S3Key=deployments/app-${{ github.sha }}.zip
+
+          aws elasticbeanstalk update-environment \
+            --application-name three-tier-app \
+            --environment-name threetierapp-env \
+            --version-label v-${{ github.sha }}
