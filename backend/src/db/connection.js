@@ -2,15 +2,6 @@ const mysql = require('mysql2/promise');
 
 let pool;
 
-/**
- * Connects to MySQL / RDS and creates a connection pool.
- * Environment variables (set these in .env locally, in Beanstalk env vars on AWS):
- *   DB_HOST     – RDS endpoint or localhost
- *   DB_USER     – database username
- *   DB_PASSWORD – database password
- *   DB_NAME     – database name
- *   DB_PORT     – default 3306
- */
 async function connectDB() {
   pool = mysql.createPool({
     host:               process.env.DB_HOST     || 'localhost',
@@ -22,10 +13,7 @@ async function connectDB() {
     connectionLimit:    10,
     queueLimit:         0,
     connectTimeout:     10000,
-    // Enable SSL when connecting to RDS in production
-    ssl: process.env.NODE_ENV === 'production'
-  ? { rejectUnauthorized: false }
-  : undefined,
+    ssl:                false,
   });
 
   // Test the connection
@@ -37,10 +25,6 @@ async function connectDB() {
   await runMigrations();
 }
 
-/**
- * Auto-creates the tables if they don't exist.
- * Safe to run multiple times (idempotent).
- */
 async function runMigrations() {
   const queries = [
     `CREATE TABLE IF NOT EXISTS users (
