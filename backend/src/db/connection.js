@@ -24,8 +24,8 @@ async function connectDB() {
     connectTimeout:     10000,
     // Enable SSL when connecting to RDS in production
     ssl: process.env.NODE_ENV === 'production'
-      ? { rejectUnauthorized: true }
-      : undefined,
+  ? { rejectUnauthorized: false }
+  : undefined,
   });
 
   // Test the connection
