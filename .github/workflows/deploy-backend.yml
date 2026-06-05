@@ -14,11 +14,23 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install zip
+      run: sudo apt-get install -y zip
+
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: |
+        cd backend
+        npm install --production
+
     - name: Zip Backend
       run: |
         cd backend
-        zip -r ../app-${{ github.sha }}.zip . \
-          --exclude 'node_modules/*'
+        zip -r ../app-${{ github.sha }}.zip . -x "node_modules/*"
 
     - name: Configure AWS
       uses: aws-actions/configure-aws-credentials@v4
@@ -37,7 +49,8 @@ jobs:
         aws elasticbeanstalk create-application-version \
           --application-name three-tier-app \
           --version-label v-${{ github.sha }} \
-          --source-bundle S3Bucket=threetierfrontend,S3Key=deployments/app-${{ github.sha }}.zip
+          --source-bundle S3Bucket=threetierfrontend,S3Key=deployments/app-${{ github.sha }}.zip || true
+        
         aws elasticbeanstalk update-environment \
           --application-name three-tier-app \
           --environment-name threetierapp-env \
