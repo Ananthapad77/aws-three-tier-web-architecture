@@ -44,14 +44,14 @@ jobs:
     - name: Upload ZIP to S3
       run: |
         aws s3 cp app-${{ github.sha }}.zip \
-          s3://threetierfrontend/deployments/app-${{ github.sha }}.zip
+          s3://threetierappfrontend/deployments/app-${{ github.sha }}.zip
 
     - name: Deploy to Beanstalk
       run: |
         aws elasticbeanstalk create-application-version \
           --application-name three-tier-app \
           --version-label v-${{ github.sha }} \
-          --source-bundle S3Bucket=threetierfrontend,S3Key=deployments/app-${{ github.sha }}.zip || true
+          --source-bundle S3Bucket=threetierappfrontend,S3Key=deployments/app-${{ github.sha }}.zip || true
         
         aws elasticbeanstalk update-environment \
           --application-name three-tier-app \
