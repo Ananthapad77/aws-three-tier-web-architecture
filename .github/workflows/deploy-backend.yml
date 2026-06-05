@@ -55,5 +55,5 @@ jobs:
         
         aws elasticbeanstalk update-environment \
           --application-name three-tier-app \
-          --environment-name threetierapp-env \
+          --environment-name Three-tier-app-env \
           --version-label v-${{ github.sha }}
