@@ -150,3 +150,4 @@ aws cloudfront create-invalidation --distribution-id YOUR_ID --paths '/*'
 - Static assets → CloudFront serves from S3 (OAC, never public)
 - Database → only reachable from app security group (private subnet)
 - Secrets → stored in AWS Secrets Manager, fetched at runtime
+"" 
