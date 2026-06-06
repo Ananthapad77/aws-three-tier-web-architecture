@@ -17,7 +17,7 @@ exports.getAll = async (req, res, next) => {
     if (status) { sql += ' AND status = ?'; params.push(status); }
 
     // Count total for pagination
-    const [countRows] = await getPool().execute(
+    const [countRows] = await getPool().query(
       `SELECT COUNT(*) as total FROM users WHERE 1=1${
         search ? ' AND (name LIKE ? OR email LIKE ?)' : ''
       }${role ? ' AND role = ?' : ''}${status ? ' AND status = ?' : ''}`,
@@ -26,9 +26,9 @@ exports.getAll = async (req, res, next) => {
     const total = countRows[0].total;
 
     sql += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
-    params.push(parseInt(limit), offset);
+    params.push(parseInt(limit), parseInt(offset));
 
-    const [rows] = await getPool().execute(sql, params);
+    const [rows] = await getPool().query(sql, params);
 
     res.json({
       data:       rows,
