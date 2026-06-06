@@ -1,58 +1,28 @@
-name: Deploy Backend to Elastic Beanstalk
-
-on:
-  push:
-    branches:
-      - Three-tier-code
-    paths:
-      - 'backend/**'
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
-    steps:
-    - uses: actions/checkout@v5
-
-    - name: Install zip
-      run: sudo apt-get install -y zip
-
-    - name: Install Node.js
-      uses: actions/setup-node@v5
-      with:
-        node-version: '18'
-
-    - name: Install dependencies
+- name: Deploy to Beanstalk
       run: |
-        cd backend
-        npm install --production
-
-    - name: Zip Backend
-      run: |
-        cd backend
-        zip -r ../app-${{ github.sha }}.zip . -x "node_modules/*"
-
-    - name: Configure AWS
-      uses: aws-actions/configure-aws-credentials@v5
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-south-1
-
-    - name: Upload ZIP to S3
-      run: |
-        aws s3 cp app-${{ github.sha }}.zip \
-          s3://threetierappfrontend/deployments/app-${{ github.sha }}.zip
-
-    - name: Deploy to Beanstalk
-      run: |
+        # Create application version
         aws elasticbeanstalk create-application-version \
           --application-name three-tier-app \
           --version-label v-${{ github.sha }} \
           --source-bundle S3Bucket=threetierappfrontend,S3Key=deployments/app-${{ github.sha }}.zip || true
-        
+
+        # Wait for environment to be Ready (max 5 minutes)
+        echo "Waiting for environment to be Ready..."
+        for i in {1..30}; do
+          STATUS=$(aws elasticbeanstalk describe-environments \
+            --application-name three-tier-app \
+            --environment-names Three-tier-app-env \
+            --query 'Environments[0].Status' \
+            --output text)
+          echo "Current status: $STATUS"
+          if [ "$STATUS" = "Ready" ]; then
+            echo "Environment is Ready!"
+            break
+          fi
+          sleep 10
+        done
+
+        # Deploy
         aws elasticbeanstalk update-environment \
           --application-name three-tier-app \
           --environment-name Three-tier-app-env \
