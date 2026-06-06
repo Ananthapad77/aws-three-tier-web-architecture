@@ -9,6 +9,7 @@ export default function UsersPage() {
   const [filters, setFilters]   = useState({ search: '', role: '', status: '', page: 1, limit: 10 });
   const [modal, setModal]       = useState({ open: false, user: null });
   const [deleting, setDeleting] = useState(null);
+  const [exporting, setExporting] = useState(false);
 
   const load = useCallback(() => {
     setLoading(true);
@@ -37,6 +38,48 @@ export default function UsersPage() {
     }
   };
 
+  const handleExportCSV = async () => {
+    setExporting(true);
+    try {
+      // Fetch all users (high limit) with current filters
+      const allData = await getUsers({ ...filters, page: 1, limit: 10000 });
+      const users = allData.data || [];
+
+      if (users.length === 0) {
+        alert('No users to export!');
+        return;
+      }
+
+      // Build CSV content
+      const headers = ['ID', 'Name', 'Email', 'Role', 'Status', 'Created At'];
+      const rows = users.map((u) => [
+        u.id,
+        `"${(u.name || '').replace(/"/g, '""')}"`,
+        `"${(u.email || '').replace(/"/g, '""')}"`,
+        u.role,
+        u.status,
+        formatDate(u.created_at),
+      ]);
+
+      const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+
+      // Trigger download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `users-export-${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      setError('Export failed: ' + e.message);
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const { data: users = [], pagination = {} } = data;
 
   return (
@@ -48,13 +91,22 @@ export default function UsersPage() {
             {pagination.total != null ? `${pagination.total} users` : 'Loading…'} stored in RDS MySQL
           </p>
         </div>
-        <button
-          className="btn btn-primary"
-          style={{ marginTop: 6 }}
-          onClick={() => setModal({ open: true, user: null })}
-        >
-          + Add User
-        </button>
+        <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+          <button
+            className="btn btn-ghost"
+            onClick={handleExportCSV}
+            disabled={exporting}
+            style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+          >
+            {exporting ? '⏳ Exporting…' : '⬇ Download as CSV'}
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => setModal({ open: true, user: null })}
+          >
+            + Add User
+          </button>
+        </div>
       </div>
 
       <div className="page-body">
