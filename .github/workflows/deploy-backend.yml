@@ -46,13 +46,6 @@ jobs:
         aws s3 cp app-${{ github.sha }}.zip \
           s3://threetierappfrontend/deployments/app-${{ github.sha }}.zip
 
-    - name: Wait for EB to be Ready
-      run: |
-        aws elasticbeanstalk wait environment-updated \
-          --application-name three-tier-app \
-          --environment-names Three-tier-app-env \
-          --region ap-south-1
-
     - name: Deploy to Beanstalk
       run: |
         aws elasticbeanstalk create-application-version \
