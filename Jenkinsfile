@@ -7,7 +7,7 @@ pipeline {
     AWS_REGION   = 'ap-south-1'
     S3_BUCKET    = 'threetierfrontend'
     EB_APP       = 'three-tier-app'
-    EB_ENV       = 'threetierapp-env'
+    EB_ENV       = 'Three-tier-app-env'
     CF_DIST_ID   = 'E3P5TQLZI94570'
   }
   stages {
