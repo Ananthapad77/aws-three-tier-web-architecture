@@ -1,36 +1,30 @@
 pipeline {
   agent any
-
   tools {
     nodejs 'NodeJS-22'
   }
-
   environment {
     AWS_REGION   = 'ap-south-1'
     S3_BUCKET    = 'threetierfrontend'
     EB_APP       = 'three-tier-app'
     EB_ENV       = 'threetierapp-env'
-    CF_DIST_ID   = 'YOUR_CLOUDFRONT_ID'
+    CF_DIST_ID   = 'E3P5TQLZI94570'
   }
-
   stages {
-
     stage('1 - Checkout Code') {
       steps {
         echo 'Pulling latest code from GitHub...'
         checkout scm
       }
     }
-
     stage('2 - Install Frontend') {
       steps {
         echo 'Installing React dependencies...'
         dir('frontend') {
-          sh 'npm ci'
+          sh 'npm install'
         }
       }
     }
-
     stage('3 - Build Frontend') {
       steps {
         echo 'Building React app...'
@@ -39,7 +33,6 @@ pipeline {
         }
       }
     }
-
     stage('4 - Deploy Frontend to S3') {
       steps {
         echo 'Uploading React build to S3...'
@@ -55,7 +48,6 @@ pipeline {
         }
       }
     }
-
     stage('5 - Invalidate CloudFront Cache') {
       steps {
         echo 'Clearing CloudFront CDN cache...'
@@ -71,7 +63,6 @@ pipeline {
         }
       }
     }
-
     stage('6 - Package Backend') {
       steps {
         echo 'Creating backend ZIP for Beanstalk...'
@@ -84,7 +75,6 @@ pipeline {
         '''
       }
     }
-
     stage('7 - Upload Backend to S3') {
       steps {
         withCredentials([[
@@ -99,7 +89,6 @@ pipeline {
         }
       }
     }
-
     stage('8 - Deploy Backend to Beanstalk') {
       steps {
         echo 'Deploying Node.js API to Elastic Beanstalk...'
@@ -113,7 +102,6 @@ pipeline {
               --version-label v-${BUILD_NUMBER} \
               --source-bundle S3Bucket=${S3_BUCKET},S3Key=deployments/app-${BUILD_NUMBER}.zip \
               --region ${AWS_REGION}
-
             aws elasticbeanstalk update-environment \
               --application-name ${EB_APP} \
               --environment-name ${EB_ENV} \
@@ -123,20 +111,18 @@ pipeline {
         }
       }
     }
-
     stage('9 - Verify Deployment') {
       steps {
         echo 'Checking if app is healthy...'
         sh '''
           sleep 30
-          curl -f http://d29tkwjze0pcvw.cloudfront.net/health \
+          curl -f https://d1fkq0205a7d03.cloudfront.net/health \
             && echo "App is UP!" \
             || echo "Health check failed"
         '''
       }
     }
   }
-
   post {
     success {
       echo '✅ Pipeline SUCCESS — App deployed to AWS!'
@@ -145,7 +131,7 @@ pipeline {
       echo '❌ Pipeline FAILED — Check the logs above'
     }
     always {
-      echo 'Pipeline finished. Build: ${BUILD_NUMBER}'
+      echo "Pipeline finished. Build: ${BUILD_NUMBER}"
     }
   }
 }
